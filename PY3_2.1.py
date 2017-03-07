@@ -1,18 +1,17 @@
+# import chardet
 
-
-def get_menu() :
+def get_menu(fname) :
     cook_book = {}
-    with open('dishes.txt') as f:
+    with open(fname) as f:
         for line in f:
             str = line.strip()
             if str.isalpha():
                 dish = str
                 cook_book[dish] = []
-            elif str.isdigit(): n = int(str)     ### в принципе это избыточная информация, можно правильно считывать ингредиенты и без количества
+            elif str.isdigit(): continue
             else:
                 ingrid = str.strip().split(' | ')
                 cook_book[dish].append({'ingridient_name': ingrid[0], 'quantity': int(ingrid[1]), 'measure': ingrid[2]})
-                # print(cook_book)
     return cook_book
 
 def get_shop_list_by_dishes(dishes, person_count, cook_book):
@@ -29,18 +28,20 @@ def get_shop_list_by_dishes(dishes, person_count, cook_book):
 
 
 def print_shop_list(shop_list):
-    # for shop_list_item in shop_list.values():
-    #   print('{} {} {}'.format(shop_list_item['ingridient_name'], shop_list_item['quantity'], shop_list_item['measure']))
     for shop_list_item in shop_list.values():
         print('{ingridient_name} {quantity} {measure}'.format(**shop_list_item))
 
 
 def create_shop_list():
-    cook_book = get_menu()
+    cook_book = get_menu('dishes.txt')
     person_count = int(input('Введите количество человек: '))
     dishes = input('Введите блюда в расчете на одного человека (через запятую): ').lower().split(', ')
     shop_list = get_shop_list_by_dishes(dishes, person_count, cook_book)
     print_shop_list(shop_list)
 
 
+
+
 create_shop_list()
+
+
